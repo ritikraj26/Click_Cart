@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'store',
     'basket',
     'account',
+    'payment',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +124,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
+# Basket session id
+BASKET_SESSION_ID = 'basket'
+
 
 # Custom user model
 AUTH_USER_MODEL = 'account.UserBase'
@@ -132,3 +137,6 @@ LOGIN_URL = '/account/login/'
 
 # Email setting
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Stripe payment
+STRIPE_ENDPOINT_SECRET = ''
