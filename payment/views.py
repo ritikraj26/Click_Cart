@@ -29,6 +29,7 @@ def BasketView(request):
     total = total.replace('.', '')
     total = int(total)
 
+    print('total')
     stripe.api_key = 'sk_test_51NUFzSSAnLLjPSZvNUQEOtJX0nVP8PFDDvs3DkOBYqNYnrnf8HoPkJV656ri9uk4X1bEqCrcolcdLVXr9sBq3AgS002fxMI8XY'
     intent = stripe.PaymentIntent.create(
         amount=total,
@@ -37,26 +38,26 @@ def BasketView(request):
     )
 
     return render(request, 'payment/home.html', {'client_secret': intent.client_secret})
+    # return render(request, 'payment/home.html')
 
 
-@csrf_exempt
-def stripe_webhook(request):
-    payload = request.body
-    event = None
+# @csrf_exempt
+# def stripe_webhook(request):
+#     payload = request.body
+#     event = None
 
-    try:
-        event = stripe.Event.construct_from(
-            json.loads(payload), stripe.api_key
-        )
-    except ValueError as e:
-        print(e)
-        return HttpResponse(status=400)
+#     try:
+#         event = stripe.Event.construct_from(
+#             json.loads(payload), stripe.api_key
+#         )
+#     except ValueError as e:
+#         print(e)
+#         return HttpResponse(status=400)
+    
+#     if event.type == 'payment_intent.succeeded':
+#         payment_confirmation(event.data.object.client_secret)
 
-    # Handle the event
-    if event.type == 'payment_intent.succeeded':
-        payment_confirmation(event.data.object.client_secret)
+#     else:
+#         print('Unhandled event type {}'.format(event.type))
 
-    else:
-        print('Unhandled event type {}'.format(event.type))
-
-    return HttpResponse(status=200)
+#     return HttpResponse(status=200)
